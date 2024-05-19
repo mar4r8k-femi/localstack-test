@@ -1,0 +1,10 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: echo "LocalStack and dependencies are being set up..."
+  - command: localstack start
+
+ports:
+  - port: 4566
+    onOpen: open-preview
