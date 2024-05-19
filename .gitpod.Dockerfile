@@ -1,12 +1,19 @@
-FROM gitpod/workspace-full
+FROM gitpod/workspace-full:latest
 
-# Specify the Python version
-RUN pyenv install 3.8.10
-RUN pyenv global 3.8.10
+# Install LocalStack dependencies
+RUN apt-get update && apt-get install -y python3-pip python3-dev
+RUN pip install localstack awscli-local
 
-# Install dependencies
-RUN pip install boto3 localstack awscli
+# Install project dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Ensure LocalStack services are up and running
-RUN mkdir -p /etc/localstack
-RUN echo 'SERVICES=s3,lambda,dynamodb,sqs' > /etc/localstack/localstack.conf
+# Copy project files
+COPY . /workspace
+
+# Set environment variables for LocalStack
+ENV EDGE_PORT=4566
+ENV SERVICES=s3,lambda,dynamodb
+
+# Expose LocalStack port
+EXPOSE 4566
