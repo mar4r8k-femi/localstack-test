@@ -1,7 +1,7 @@
-FROM gitpod/workspace-full:latest
+FROM gitpod/workspace-full
 
 # Install LocalStack dependencies
-RUN apt-get update && apt-get install -y python3-pip python3-dev
+# RUN apt-get update && apt-get install -y python3-pip python3-dev
 RUN pip install localstack awscli-local
 
 # Install project dependencies
